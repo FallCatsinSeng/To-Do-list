@@ -1,233 +1,74 @@
-# Production Deployment Guide
+# Deployment with Docker Nginx
 
-## 📋 Prerequisites
+## Changes Made
 
-- [x] VPS dengan Docker dan Docker Compose installed
-- [x] Nginx installed dan configured
-- [x] Domain siap (`bulan2.yusufsoftware.my.id`)
-- [x] SSL certificate (Let's Encrypt)
-- [x] Google OAuth credentials
+1. **docker-compose.yml**: Removed `profiles` from nginx service - now always active
+2. **nginx/nginx.conf**: Created Docker Nginx config with SSL support
+3. **nginx/ssl/**: Directory for SSL certificates
 
-## 🚀 Step-by-Step Deployment
+## Deploy to Server
 
-### 1. Setup Server
+### 1. Push Changes to Git
 
 ```bash
-# Login ke VPS
-ssh root@43.163.85.252
-
-# Clone repository
-cd /var/www
-git clone <your-repo-url> bulan2-modern
-cd bulan2-modern
+# Di local (F:/kulis/bulan2-modern)
+git add .
+git commit -m "Add Docker Nginx configuration"
+git push origin main
 ```
 
-### 2. Configure Environment
+### 2. Pull on Server
 
 ```bash
-# Copy dan edit .env
-cp .env.example .env
-nano .env
-```
-
-**Penting untuk diubah di `.env`:**
-```env
-# Database passwords (generate strong passwords!)
-MYSQL_ROOT_PASSWORD=<strong-password>
-MYSQL_PASSWORD=<strong-password>
-
-# JWT Secret (generate dengan: openssl rand -base64 64)
-JWT_SECRET=<very-long-random-string>
-
-# Production URLs
-NEXT_PUBLIC_API_URL=https://bulan2.yusufsoftware.my.id
-GOOGLE_REDIRECT_URL=https://bulan2.yusufsoftware.my.id/api/auth/google/callback
-FRONTEND_URL=https://bulan2.yusufsoftware.my.id
-ALLOWED_ORIGINS=https://bulan2.yusufsoftware.my.id
-
-# Google OAuth (dari Google Cloud Console)
-GOOGLE_CLIENT_ID=<your-client-id>
-GOOGLE_CLIENT_SECRET=<your-client-secret>
-```
-
-### 3. Configure Nginx
-
-```bash
-# Copy nginx config
-sudo cp nginx/bulan2-modern.conf /etc/nginx/sites-available/
-
-# Enable site
-sudo ln -s /etc/nginx/sites-available/bulan2-modern.conf /etc/nginx/sites-enabled/
-
-# Test nginx config
-sudo nginx -t
-```
-
-### 4. Setup SSL Certificate
-
-```bash
-# Install certbot (jika belum)
-sudo apt-get install certbot python3-certbot-nginx
-
-# Get SSL certificate
-sudo certbot --nginx -d bulan2.yusufsoftware.my.id
-
-# Test auto-renewal
-sudo certbot renew --dry-run
-```
-
-### 5. Update Google OAuth Settings
-
-1. Go to [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
-2. Edit OAuth 2.0 Client
-3. Add Authorized redirect URI:
-   ```
-   https://bulan2.yusufsoftware.my.id/api/auth/google/callback
-   ```
-4. Save changes
-
-### 6. Deploy Application
-
-```bash
-# Make deploy script executable
-chmod +x deploy.sh
-
-# Run deployment
-./deploy.sh
-```
-
-### 7. Verify Deployment
-
-```bash
-# Check containers
-docker-compose ps
-
-# Check logs
-docker-compose logs -f backend
-
-# Test backend
-curl https://bulan2.yusufsoftware.my.id/api/health
-
-# Test frontend
-curl -I https://bulan2.yusufsoftware.my.id
-```
-
-## 🔒 Security Checklist
-
-- [x] Change all default passwords in `.env`
-- [x] Generate strong JWT secret
-- [x] SSL certificate installed
-- [x] CORS configured correctly
-- [x] Rate limiting enabled
-- [x] Firewall configured (only allow ports 80, 443, 22)
-- [x] `.env` file NOT committed to git
-- [x] Docker containers auto-restart enabled
-
-## 📊 Monitoring
-
-### Check Application Status
-```bash
-# Container status
-docker-compose ps
-
-# Resource usage
-docker stats
-
-# Application logs
-docker-compose logs -f
-```
-
-### Nginx Logs
-```bash
-# Access logs
-sudo tail -f /var/log/nginx/bulan2-access.log
-
-# Error logs
-sudo tail -f /var/log/nginx/bulan2-error.log
-```
-
-### Database Backup
-```bash
-# Backup database
-docker-compose exec mysql mysqldump -u root -p bulan2_prod_db > backup_$(date +%Y%m%d).sql
-
-# Restore database
-docker-compose exec -T mysql mysql -u root -p bulan2_prod_db < backup_20231211.sql
-```
-
-## 🔄 Update/Redeploy
-
-```bash
-# Pull latest changes
+# Di server
+cd /var/www/To-Do-list
 git pull origin main
-
-# Rebuild and restart
-./deploy.sh
 ```
 
-## 🆘 Troubleshooting
+### 3. Get SSL Certificate
 
-### Container won't start
 ```bash
-# Check logs
-docker-compose logs backend
-docker-compose logs frontend
+# Stop containers first (to free port 80)
+docker-compose down
 
-# Restart containers
-docker-compose restart
+# Get certificate
+sudo certbot certonly --standalone -d this.mylist.web.id
+
+# Copy certificates
+sudo cp /etc/letsencrypt/live/this.mylist.web.id/fullchain.pem nginx/ssl/
+sudo cp /etc/letsencrypt/live/this.mylist.web.id/privkey.pem nginx/ssl/
+
+# Fix permissions
+sudo chown -R $USER:$USER nginx/ssl
+chmod 644 nginx/ssl/*
 ```
 
-### Database connection error
+### 4. Start All Containers (Including Nginx)
+
 ```bash
-# Check MySQL container
-docker-compose logs mysql
-
-# Verify credentials in .env
-docker-compose exec backend env | grep DB_
+docker-compose up -d --build
 ```
 
-### OAuth not working
-1. Verify `GOOGLE_REDIRECT_URL` matches Google Cloud Console
-2. Check `ALLOWED_ORIGINS` in `.env`
-3. Clear browser cookies and try again
+### 5. Verify
 
-### Nginx errors
 ```bash
-# Test config
-sudo nginx -t
+# Check all containers running
+docker-compose ps
 
-# Reload nginx
-sudo systemctl reload nginx
-
-# Check nginx logs
-sudo tail -f /var/log/nginx/error.log
+# Test HTTPS
+curl -I https://this.mylist.web.id
 ```
 
-## 📈 Performance Tuning
+## Architecture
 
-### Database Optimization
-```bash
-# Increase MySQL memory (docker-compose.yml)
-services:
-  mysql:
-    command: --max_connections=200 --innodb_buffer_pool_size=512M
+```
+Client (HTTPS)
+    ↓
+Nginx Container (port 443 → 80)
+    ↓
+┌─────────────┬──────────────┐
+│             │              │
+Frontend:3000  Backend:8080  
 ```
 
-### Redis Cache
-Already configured and running on port 6379
-
-### Frontend Build Optimization
-Next.js is configured with production optimizations by default
-
-## 🔗 URLs
-
-- **Frontend**: https://bulan2.yusufsoftware.my.id
-- **Backend API**: https://bulan2.yusufsoftware.my.id/api
-- **Google OAuth**: https://bulan2.yusufsoftware.my.id/api/auth/google/login
-
-## 📞 Support
-
-Jika ada masalah saat deployment, periksa:
-1. Container logs: `docker-compose logs`
-2. Nginx logs: `/var/log/nginx/bulan2-error.log`
-3. Environment variables: Pastikan semua variabel di `.env` sudah benar
+All services run in Docker - clean and isolated! ✅

@@ -97,7 +97,7 @@ services:
     networks:
       - bulan2_network
 
-  # Nginx Reverse Proxy (for production)
+  # Nginx Reverse Proxy
   nginx:
     image: nginx:alpine
     container_name: bulan2_nginx
@@ -113,8 +113,6 @@ services:
       - backend
     networks:
       - bulan2_network
-    profiles:
-      - production
 
 volumes:
   mysql_data:
