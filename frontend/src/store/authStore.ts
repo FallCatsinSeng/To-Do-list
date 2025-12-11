@@ -6,6 +6,7 @@ interface AuthState {
     user: User | null;
     token: string | null;
     setAuth: (user: User, token: string) => void;
+    updateUser: (user: User) => void;
     clearAuth: () => void;
     isAuthenticated: () => boolean;
     isAdmin: () => boolean;
@@ -20,6 +21,12 @@ export const useAuthStore = create<AuthState>()(
                 set({ user, token });
                 if (typeof window !== 'undefined') {
                     localStorage.setItem('token', token);
+                    localStorage.setItem('user', JSON.stringify(user));
+                }
+            },
+            updateUser: (user) => {
+                set((state) => ({ ...state, user }));
+                if (typeof window !== 'undefined') {
                     localStorage.setItem('user', JSON.stringify(user));
                 }
             },

@@ -119,3 +119,9 @@ func RateLimitMiddleware(rate int, window time.Duration) gin.HandlerFunc {
 func LoginRateLimiter() gin.HandlerFunc {
 	return RateLimitMiddleware(5, time.Minute)
 }
+
+// RegisterRateLimiter creates a rate limiter specifically for registration
+// Default: 1 registration per minute to prevent spam
+func RegisterRateLimiter() gin.HandlerFunc {
+	return RateLimitMiddleware(1, time.Minute)
+}

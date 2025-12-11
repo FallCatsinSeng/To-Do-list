@@ -23,16 +23,18 @@ FROM alpine:latest
 
 RUN apk --no-cache add ca-certificates tzdata
 
-WORKDIR /root/
+# Use /app as working directory to match volume mount
+WORKDIR /app
 
-# Copy the binary from builder
-COPY --from=builder /app/main .
+# Copy the binary from builder - use absolute path
+COPY --from=builder /app/main /app/main
 
 # Create uploads directory
-RUN mkdir -p uploads/gallery
+RUN mkdir -p /app/uploads/gallery /app/uploads/profiles
 
 # Expose port
 EXPOSE 8080
 
-# Run the application
-CMD ["./main"]
+# Run the application with absolute path
+CMD ["/app/main"]
+

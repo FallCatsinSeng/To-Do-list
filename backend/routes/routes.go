@@ -19,9 +19,14 @@ func SetupRoutes(r *gin.Engine) {
 		// Public routes (no auth required)
 		auth := api.Group("/auth")
 		{
-			auth.POST("/register", controllers.Register)
+			// Apply rate limiting to prevent spam registrations
+			auth.POST("/register", middleware.RegisterRateLimiter(), controllers.Register)
 			// Apply rate limiting to login to prevent brute force attacks
 			auth.POST("/login", middleware.LoginRateLimiter(), controllers.Login)
+			
+			// Google OAuth
+			auth.GET("/google/login", controllers.GoogleLogin)
+			auth.GET("/google/callback", controllers.GoogleCallback)
 		}
 
 		// Protected routes (auth required)

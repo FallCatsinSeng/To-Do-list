@@ -34,3 +34,7 @@ logs/
 
 # Docker
 docker-compose.override.yml
+
+
+PRODUCTION-QUICKSTART.md
+DEPLOYMENT.md

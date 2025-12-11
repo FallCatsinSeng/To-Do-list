@@ -12,7 +12,7 @@ services:
       MYSQL_USER: ${MYSQL_USER:-bulan2user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-bulan2pass}
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
       - ./database/migrations:/docker-entrypoint-initdb.d
@@ -48,7 +48,7 @@ services:
     container_name: bulan2_backend
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - "8081:8080"
     environment:
       DB_HOST: mysql
       DB_PORT: 3306
@@ -59,8 +59,12 @@ services:
       REDIS_PORT: 6379
       JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-this}
       APP_ENV: ${APP_ENV:-development}
+      # Google OAuth Configuration
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      GOOGLE_REDIRECT_URL: ${GOOGLE_REDIRECT_URL}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
     volumes:
-      - ./backend:/app
       - ./backend/uploads:/app/uploads
     depends_on:
       mysql:
@@ -80,7 +84,7 @@ services:
     container_name: bulan2_frontend
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8080}
       NODE_ENV: development

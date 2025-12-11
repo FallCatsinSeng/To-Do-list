@@ -30,6 +30,9 @@ func main() {
 	config.InitRedis()
 	defer config.CloseRedis()
 
+	// Initialize OAuth
+	config.InitOAuth()
+
 	// Set Gin mode
 	if os.Getenv("APP_ENV") == "production" {
 		gin.SetMode(gin.ReleaseMode)
