@@ -1,0 +1,82 @@
+/* Admin Dashboard Styles - From PHP admin/dashboard.php */
+
+.container {
+    width: 100%;
+}
+
+.container h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    width: 220px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card h2 {
+    margin: 0;
+    font-size: 36px;
+    color: #0d6efd;
+}
+
+.card p {
+    margin: 10px 0 0 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.box {
+    margin-top: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.box h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.grid {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.imgCard {
+    width: 150px;
+    height: 120px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: 0.2s;
+}
+
+.imgCard:hover {
+    transform: scale(1.07);
+}
+
+.imgCard img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

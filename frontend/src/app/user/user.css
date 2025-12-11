@@ -1,0 +1,20 @@
+/* User Layout Styles */
+
+.user-layout {
+    display: flex;
+    min-height: 100vh;
+    background: #f4f6fa;
+}
+
+.user-content {
+    margin-left: 260px;
+    padding: 28px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .user-content {
+        margin-left: 0;
+        padding: 18px;
+    }
+}

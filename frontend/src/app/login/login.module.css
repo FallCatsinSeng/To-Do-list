@@ -1,0 +1,102 @@
+/* Login Page Styles - Pixel perfect from PHP login.php */
+
+.container {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #eef1f5;
+}
+
+.card {
+    width: 400px;
+    background: #fff;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.7s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.card input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0 20px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.card input:focus {
+    border-color: #4e73df;
+    box-shadow: 0px 0px 5px rgba(78, 115, 223, 0.5);
+    outline: none;
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: #4e73df;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+.btn:hover {
+    background: #2e59d9;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.link a {
+    color: #4e73df;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.link a:hover {
+    text-decoration: underline;
+}
+
+.error {
+    color: #dc3545;
+    text-align: center;
+    padding: 10px;
+    background: #f8d7da;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #f5c2c7;
+}

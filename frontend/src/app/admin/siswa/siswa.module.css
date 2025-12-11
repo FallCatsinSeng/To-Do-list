@@ -1,0 +1,81 @@
+/* Admin Siswa Styles */
+
+.container {
+    width: 100%;
+}
+
+.searchForm {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.searchForm input {
+    padding: 10px;
+    width: 250px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.btnGreen,
+.btnBlue,
+.btnRed,
+.btnOrange {
+    padding: 8px 16px;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.btnGreen {
+    background: #198754;
+}
+
+.btnBlue {
+    background: #0d6efd;
+    margin-right: 5px;
+}
+
+.btnRed {
+    background: #dc3545;
+}
+
+.btnOrange {
+    background: #fd7e14;
+}
+
+.btnGreen:hover {
+    background: #157347;
+}
+
+.btnBlue:hover {
+    background: #0b5ed7;
+}
+
+.btnRed:hover {
+    background: #bb2d3b;
+}
+
+.pagination {
+    display: flex;
+    gap: 5px;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: white;
+    border: 1px solid #0d6efd;
+    cursor: pointer;
+}
+
+.pagination .active {
+    background: #0d6efd;
+    color: white;
+}
