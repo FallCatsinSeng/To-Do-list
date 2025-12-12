@@ -69,6 +69,9 @@ func InitDatabase() {
 		&models.Siswa{},
 		&models.Todo{},
 		&models.Comment{},
+		&models.MahasiswaGuru{},
+		&models.Assignment{},
+		&models.AssignmentSubmission{},
 	)
 
 	if err != nil {

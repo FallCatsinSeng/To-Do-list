@@ -12,7 +12,7 @@ type User struct {
 	Nama      string         `gorm:"size:100;not null" json:"nama"`
 	Email     string         `gorm:"size:100;uniqueIndex;not null" json:"email"`
 	Password  string         `gorm:"size:255;not null" json:"-"`
-	Role      string         `gorm:"type:enum('admin','user');default:'user'" json:"role"`
+	Role      string         `gorm:"type:enum('admin','user','guru');default:'user'" json:"role"`
 	Foto      string         `gorm:"size:200" json:"foto"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`

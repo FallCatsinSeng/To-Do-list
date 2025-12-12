@@ -1,0 +1,262 @@
+.container {
+    max-width: 900px;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #6b7280;
+}
+
+.backBtn {
+    background: #f3f4f6;
+    color: #4b5563;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 24px;
+}
+
+.backBtn:hover {
+    background: #e5e7eb;
+}
+
+.assignmentCard {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 32px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.assignmentHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 8px 0;
+}
+
+.dueDate {
+    color: #92400e;
+    background: #fef3c7;
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.deleteBtn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.deleteBtn:hover {
+    background: #dc2626;
+}
+
+.description {
+    color: #4b5563;
+    line-height: 1.6;
+    margin: 16px 0 0 0;
+}
+
+.submissionsSection h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 20px;
+}
+
+.empty {
+    text-align: center;
+    padding: 40px;
+    background: white;
+    border-radius: 16px;
+}
+
+.empty p {
+    color: #6b7280;
+    margin: 8px 0 0 0;
+}
+
+.submissionsList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.submissionCard {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.submissionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.submissionHeader h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 4px 0;
+}
+
+.submissionMeta {
+    color: #6b7280;
+    font-size: 14px;
+    margin: 0;
+}
+
+.gradeBadge {
+    background: #d1fae5;
+    color: #065f46;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 10px;
+}
+
+.feedback {
+    background: #f9fafb;
+    padding: 16px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+}
+
+.feedback strong {
+    color: #1f2937;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.feedback p {
+    color: #4b5563;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.gradeForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    background: #f9fafb;
+    border-radius: 10px;
+}
+
+.input,
+.textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.input:focus,
+.textarea:focus {
+    outline: none;
+    border-color: #059669;
+}
+
+.gradeActions {
+    display: flex;
+    gap: 8px;
+}
+
+.cancelGradeBtn,
+.saveGradeBtn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cancelGradeBtn {
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+.cancelGradeBtn:hover {
+    background: #e5e7eb;
+}
+
+.saveGradeBtn {
+    background: #059669;
+    color: white;
+}
+
+.saveGradeBtn:hover {
+    background: #047857;
+}
+
+.gradeBtn {
+    background: #059669;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.gradeBtn:hover {
+    background: #047857;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .assignmentCard {
+        padding: 24px;
+    }
+
+    .assignmentHeader {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .deleteBtn {
+        width: 100%;
+    }
+
+    .submissionHeader {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .gradeBadge {
+        align-self: flex-start;
+    }
+}
