@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
     nama VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'user') DEFAULT 'user',
+    role ENUM('admin', 'user', 'guru') DEFAULT 'user',
     foto VARCHAR(200),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -16,6 +16,50 @@ CREATE TABLE IF NOT EXISTS users (
     INDEX idx_email (email),
     INDEX idx_role (role),
     INDEX idx_deleted_at (deleted_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Mahasiswa-Guru relationship table
+CREATE TABLE IF NOT EXISTS mahasiswa_guru (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    mahasiswa_id BIGINT UNSIGNED NOT NULL,
+    guru_id BIGINT UNSIGNED NOT NULL,
+    status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_mahasiswa (mahasiswa_id),
+    INDEX idx_guru (guru_id),
+    INDEX idx_status (status),
+    UNIQUE KEY unique_mahasiswa_guru_approved (mahasiswa_id, guru_id, status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Assignments table
+CREATE TABLE IF NOT EXISTS assignments (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    guru_id BIGINT UNSIGNED NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    due_date DATETIME,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at DATETIME DEFAULT NULL,
+    INDEX idx_guru (guru_id),
+    INDEX idx_deleted_at (deleted_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Assignment submissions table
+CREATE TABLE IF NOT EXISTS assignment_submissions (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    assignment_id BIGINT UNSIGNED NOT NULL,
+    mahasiswa_id BIGINT UNSIGNED NOT NULL,
+    status ENUM('pending', 'submitted', 'graded') DEFAULT 'pending',
+    submitted_at DATETIME,
+    grade DECIMAL(5,2),
+    feedback TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_assignment (assignment_id),
+    INDEX idx_mahasiswa (mahasiswa_id),
+    INDEX idx_status (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Students table (enhanced)

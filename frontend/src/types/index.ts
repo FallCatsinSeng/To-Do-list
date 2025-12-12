@@ -4,7 +4,7 @@ export interface User {
     id: number;
     nama: string;
     email: string;
-    role: 'admin' | 'user';
+    role: 'admin' | 'user' | 'guru';
     foto?: string;
 }
 
@@ -40,6 +40,42 @@ export interface Comment {
     comment: string;
     created_at: string;
     user?: User;
+}
+
+export interface MahasiswaGuru {
+    id: number;
+    mahasiswa_id: number;
+    guru_id: number;
+    status: 'pending' | 'approved' | 'rejected';
+    mahasiswa?: User;
+    guru?: User;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Assignment {
+    id: number;
+    guru_id: number;
+    title: string;
+    description: string;
+    due_date?: string;
+    created_at: string;
+    updated_at: string;
+    guru?: User;
+}
+
+export interface AssignmentSubmission {
+    id: number;
+    assignment_id: number;
+    mahasiswa_id: number;
+    status: 'pending' | 'submitted' | 'graded';
+    submitted_at?: string;
+    grade?: number;
+    feedback?: string;
+    assignment?: Assignment;
+    mahasiswa?: User;
+    created_at: string;
+    updated_at: string;
 }
 
 export interface AuthResponse {

@@ -34,6 +34,3 @@ logs/
 
 # Docker
 docker-compose.override.yml
-privkey.pem
-
-privkey copy.pem

@@ -5,14 +5,15 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState, useRef, useEffect } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import api from '@/lib/api';
-import styles from './UserSidebar.module.css';
+import styles from './GuruSidebar.module.css';
 
-export default function UserSidebar() {
+export default function GuruSidebar() {
     const pathname = usePathname();
     const router = useRouter();
     const { user, clearAuth, updateUser } = useAuthStore();
     const [uploading, setUploading] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [pendingCount, setPendingCount] = useState(0);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleLogout = () => {
@@ -32,7 +33,6 @@ export default function UserSidebar() {
         const file = e.target.files?.[0];
         if (!file) return;
 
-        // Validasi basic
         if (!file.type.startsWith('image/')) {
             alert('Mohon upload file gambar');
             return;
@@ -47,7 +47,6 @@ export default function UserSidebar() {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 
-            // Update user in store with new photo filename
             if (user) {
                 updateUser({ ...user, foto: res.data.foto });
             }
@@ -57,12 +56,27 @@ export default function UserSidebar() {
             alert(error.response?.data?.error || 'Gagal upload foto profil');
         } finally {
             setUploading(false);
-            // Reset input value agar bisa upload file yang sama jika perlu
             if (fileInputRef.current) {
                 fileInputRef.current.value = '';
             }
         }
     };
+
+    // Fetch pending requests count
+    useEffect(() => {
+        const fetchPendingCount = async () => {
+            try {
+                const res = await api.get('/api/guru/requests');
+                setPendingCount(res.data.data?.length || 0);
+            } catch (error) {
+                console.error('Failed to fetch pending requests:', error);
+            }
+        };
+
+        if (user?.role === 'guru') {
+            fetchPendingCount();
+        }
+    }, [user]);
 
     // Close sidebar when route changes on mobile
     useEffect(() => {
@@ -136,52 +150,41 @@ export default function UserSidebar() {
                         style={{ display: 'none' }}
                         accept="image/*"
                     />
-                    <h3>{user?.nama || 'User'}</h3>
-                    <p>User</p>
+                    <h3>{user?.nama || 'Guru'}</h3>
+                    <p>Guru</p>
                 </div>
 
-                <h2>User Panel</h2>
+                <h2>Guru Panel</h2>
 
                 <Link
-                    href="/user/dashboard"
-                    className={isActive('/user/dashboard') ? styles.active : ''}
+                    href="/guru/dashboard"
+                    className={isActive('/guru/dashboard') ? styles.active : ''}
                 >
                     <span>🏠</span> Dashboard
                 </Link>
 
                 <Link
-                    href="/user/gallery"
-                    className={isActive('/user/gallery') ? styles.active : ''}
+                    href="/guru/requests"
+                    className={isActive('/guru/requests') ? styles.active : ''}
                 >
-                    <span>📷</span> Lihat Galeri
+                    <span>👥</span> Permintaan Mahasiswa
+                    {pendingCount > 0 && (
+                        <span className={styles.badge}>{pendingCount}</span>
+                    )}
                 </Link>
 
                 <Link
-                    href="/user/todo"
-                    className={isActive('/user/todo') ? styles.active : ''}
+                    href="/guru/mahasiswa"
+                    className={isActive('/guru/mahasiswa') ? styles.active : ''}
                 >
-                    <span>📝</span> To-do List
+                    <span>📚</span> Daftar Mahasiswa
                 </Link>
 
                 <Link
-                    href="/user/pilih-guru"
-                    className={isActive('/user/pilih-guru') ? styles.active : ''}
+                    href="/guru/assignments"
+                    className={isActive('/guru/assignments') ? styles.active : ''}
                 >
-                    <span>👨‍🏫</span> Pilih Guru
-                </Link>
-
-                <Link
-                    href="/user/tugas"
-                    className={isActive('/user/tugas') ? styles.active : ''}
-                >
-                    <span>📋</span> Tugas
-                </Link>
-
-                <Link
-                    href="/user/comments"
-                    className={isActive('/user/comments') ? styles.active : ''}
-                >
-                    <span>💬</span> Komentar
+                    <span>📝</span> Tugas
                 </Link>
 
                 <button onClick={handleLogout} className={styles.logout}>

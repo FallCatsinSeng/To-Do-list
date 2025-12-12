@@ -57,3 +57,16 @@ func AdminOnly() gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+// RequireGuru middleware checks if user is guru
+func RequireGuru() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		role, exists := c.Get("role")
+		if !exists || role != "guru" {
+			c.JSON(http.StatusForbidden, gin.H{"error": "Guru access required"})
+			c.Abort()
+			return
+		}
+		c.Next()
+	}
+}

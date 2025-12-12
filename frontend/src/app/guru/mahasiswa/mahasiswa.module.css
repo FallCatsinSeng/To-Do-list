@@ -1,0 +1,106 @@
+.container {
+    max-width: 1200px;
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #6b7280;
+    margin-bottom: 32px;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #6b7280;
+}
+
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 16px;
+}
+
+.empty h3 {
+    color: #1f2937;
+    margin: 16px 0 8px 0;
+}
+
+.empty p {
+    color: #6b7280;
+    margin: 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.avatar span {
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.cardContent {
+    flex: 1;
+}
+
+.cardContent h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 4px 0;
+}
+
+.email {
+    color: #6b7280;
+    font-size: 14px;
+    margin: 0 0 8px 0;
+}
+
+.meta {
+    color: #059669;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
