@@ -205,7 +205,8 @@ func GoogleCallback(c *gin.Context) {
 	code := c.Query("code")
 	token, err := config.GoogleOauthConfig.Exchange(context.Background(), code)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to exchange token"})
+		// return detailed error for debugging (remove or sanitize in production)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to exchange token", "detail": err.Error()})
 		return
 	}
 
